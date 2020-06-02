@@ -1,0 +1,26 @@
+Question - https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/539/week-1-june-1st-june-7th/3347/
+
+Logic - Use preorder traversal and swap left and right nodes.
+
+Code -
+
+class Solution {
+    public TreeNode invertTree(TreeNode root) {
+        
+        invert(root);
+        return root;
+        
+    }
+    
+    public void invert(TreeNode root){
+        if(root==null ||(root.left ==null && root.right == null)){
+            return ;
+        }
+           TreeNode left = root.left;
+           root.left = root.right;
+           root.right = left;
+           invert(root.left);
+           invert(root.right);
+           
+    }
+}
