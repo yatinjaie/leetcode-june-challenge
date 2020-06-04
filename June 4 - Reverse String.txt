@@ -1,0 +1,19 @@
+Question - https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/539/week-1-june-1st-june-7th/3350/
+
+Logic - Two pointer approch, ptr1 from starting and ptr2 from end, swap characters till ptr2>=ptr1
+Code -
+
+class Solution {
+    public void reverseString(char[] s) {
+        int ptr1 = 0;
+        int ptr2 = s.length -1;
+        
+        while(ptr2>=ptr1){
+            char c = s[ptr1];
+            s[ptr1] = s[ptr2];
+            s[ptr2] = c;
+            ptr1++;
+            ptr2--;
+        }
+    }
+}
