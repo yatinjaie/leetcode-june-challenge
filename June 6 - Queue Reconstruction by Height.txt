@@ -1,0 +1,19 @@
+Question - https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/539/week-1-june-1st-june-7th/3352/
+
+Logic - First sort all the people in decreasing order of there height. For those who have the same height, sort them in ascending order of there k-values.
+Now simply iterate over the sorted array and insert them in the output array at indices equal to there k-values.
+
+
+Code -
+
+class Solution {
+    public int[][] reconstructQueue(int[][] people) {
+        Arrays.sort(people, (a, b) -> a[0] == b[0] ? a[1] - b[1] : b[0] - a[0]);
+        List<int[]> res = new ArrayList<>();
+        for(int[] p : people){
+            res.add(p[1], p);
+        }
+        int n = people.length;
+        return res.toArray(new int[n][2]);
+    }
+}
