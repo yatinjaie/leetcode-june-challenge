@@ -1,0 +1,42 @@
+Question - https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/539/week-1-june-1st-june-7th/3353/
+
+Logic - At any point we have 2 choices either to include the current coin or to move to the next one.
+Base cases :
+If the amount == 0 then we can return 1 -> meaning we have found the exact change.
+if amount < 0 then we return 0 -> meaning we cannot found the exact change.
+if i == coins.length then it means we have exhausted all the coins and we are not able to reduce the amount to 0 so we return 0 -> meaning we cannot found the exact change.
+
+
+Code -
+
+class Solution {
+    
+    
+    public int change(int amount, int[] coins) {
+        int[][] dp = new int[coins.length][amount+1];
+        for(int i = 0 ;i < coins.length;i++){
+            for(int j=0; j <= amount ; j++){
+                dp[i][j] = -1;
+            }
+        }
+        return helper(amount,coins,0,dp);
+    }
+    
+    public int helper(int amount, int[] coins,int i,int[][] dp){
+        if(amount < 0){
+            return 0;
+        }
+        if(amount == 0){
+            return 1;
+        }
+        if(i==coins.length){
+            return 0;
+        }
+        if(dp[i][amount] !=-1){
+            return dp[i][amount];
+        }
+        dp[i][amount] = helper(amount - coins[i], coins, i,dp) + helper(amount, coins, i + 1,dp);
+        return dp[i][amount];
+        
+    }
+}
