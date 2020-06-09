@@ -1,0 +1,33 @@
+Question - https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/540/week-2-june-8th-june-14th/3355/
+
+Logic - We will take two pointer for both strings and then scan characterwise below are the steps
+
+1. i is pointer for s and j pointer for t
+2. compare character of s and t at i and j index rep.
+3. if both same then increment both pointer i and j
+   else just increment t pointer j
+4. repeat step 2 until either pointer reach the last character of the string
+5. check if ith pointer reach to the end of s string retrun i == s.length()
+
+
+Code -
+
+class Solution {
+    int count = 0;
+    public boolean isSubsequence(String s, String t) {
+        sub(s,t,0,0);
+        return s.length() == count;
+    }
+    
+    public void sub(String s, String t , int i, int j){
+        if(i==s.length() || j == t.length()){
+            return;
+        }
+        if(s.charAt(i) == t.charAt(j)){
+            sub(s,t,i+1,j+1);
+            count++;
+        }else{
+            sub(s,t,i,j+1);
+        }
+    }
+}
