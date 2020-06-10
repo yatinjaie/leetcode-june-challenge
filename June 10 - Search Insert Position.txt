@@ -1,0 +1,39 @@
+Question - https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/540/week-2-june-8th-june-14th/3356/
+
+Logic - Linear Search and Binary Search.
+
+Code -
+
+Linear Search:
+
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        int i = 0;
+        for(i = 0 ;i<nums.length ; i++){
+            if(nums[i]  >= target){
+                return i;
+            }
+        }
+       return i;         
+        
+    }
+}
+
+Binary Search:
+
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        int begin = 0; int end  = nums.length -1;
+        while(begin <= end){
+            int mid = (begin + end) /2;
+            if(target == nums[mid]){
+                return mid;
+            }else if (nums[mid] > target){
+                end = mid-1;
+            }else{
+                begin = mid+1;
+            }
+        }
+        return begin; 
+    }
+}
