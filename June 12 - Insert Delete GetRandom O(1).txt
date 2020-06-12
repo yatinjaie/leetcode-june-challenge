@@ -1,0 +1,64 @@
+Question - https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/540/week-2-june-8th-june-14th/3358/
+
+Logic - Here we have to implement 3 functions i.e. insert(), remove() and getRandom() in O(1) complexity. First thing that comes to our mind is to use HashSet/ HashMap as they provide O(1) insert and O(1) remove. The problem is with the getRandom() method as how to implement such a method as map doesn't have any indexes. The basis idea to implement such a method is to choose a random index and retrieve the element from the random index.
+So the second thing that comes to our mind is to use ArrayList. ArrayList can provide O(1) insert and O(1) getRandom() but cannot provide O(1) remove, removing an element at a random index takes O(n) complexity. One important thing to know is that complexity to remove the last element in the ArrayList is O(1). In order to tackle the remove method we can create a map which will consist of list values with there index in the list and will try to delete from the end of the list as it is O(1). So in case a call comes for delete() :
+
+We will find the index of the element to be deleted in O(1) complexity using map.
+We will put the value from the last index to the index found in step 1 in the ArrayList in O(1).
+We will remove the last element from the ArrayList in O(1), and it's entry from the map in O(1).
+We will finally update the index in the map for the value which has come to the index found in step 1 in O(1).
+So we will be able to perform delete() in O(1) as well.
+
+Code -
+
+class RandomizedSet {
+    
+    List<Integer> list;
+    Map<Integer, Integer> map;
+    Random rand;
+    
+
+    /** Initialize your data structure here. */
+    public RandomizedSet() {
+        list = new ArrayList<>();
+        map = new HashMap<>();
+        rand = new Random();
+    }
+    
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    public boolean insert(int val) {
+        if(map.containsKey(val)){
+            return false;
+        }
+        list.add(val);
+        map.put(val,list.size() - 1);
+        return true;
+    }
+    
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    public boolean remove(int val) {
+        if(map.containsKey(val)){
+            int index = map.get(val);
+            int lastElement = list.get(list.size() - 1);
+            list.set(index, lastElement);
+            map.put(lastElement, index);
+            list.remove(list.size() - 1);
+            map.remove(val);
+            return true;
+        }
+        return false;
+    }
+    
+    /** Get a random element from the set. */
+    public int getRandom() {
+         return list.get(rand.nextInt(list.size()));
+    }
+}
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet obj = new RandomizedSet();
+ * boolean param_1 = obj.insert(val);
+ * boolean param_2 = obj.remove(val);
+ * int param_3 = obj.getRandom();
+ */
