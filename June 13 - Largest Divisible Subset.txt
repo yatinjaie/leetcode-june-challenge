@@ -1,0 +1,45 @@
+Question - https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/540/week-2-june-8th-june-14th/3359/
+
+Logic - 
+if input is empty return empty list
+sort the array so that you can identify elements with values less than them and we need to check modulo(%) only upto the current element.
+For each item a in the array, identify the item b less than the current item with max number of items in the set . This data need to be stored in an array and in below code array c contains this data and along with this keep track of b for all a by using another array dp.
+If the current c[i] value found in above step is the maximum we found so far, update the max variable to point to c[i]
+Backtrack dp array from max index and create the list for the calculated number of items
+
+Code -
+
+class Solution {
+      public List<Integer> largestDivisibleSubset(int[] nums) {
+        if(nums.length == 0){
+            return Collections.emptyList();
+        }
+        Arrays.sort(nums);
+        int length = nums.length;
+        int[] c = new int[length];
+        int[] dp = new int[length];
+        Arrays.fill(c, 1);
+        int max = 0;
+        for (int i = 1; i < length; i++) {
+            int e = nums[i];
+            for (int j = 0; j < i; j++) {
+                if (e%nums[j] == 0) {
+                    if(c[i] < c[j]+1){
+                        dp[i] = j;
+                        c[i] = c[j]+1;
+                    }
+                }
+            }
+            if(c[i] > c[max]){
+                max = i;
+            }
+        }
+        List<Integer> r = new ArrayList<>();
+        int k =max;
+        for (int i = c[max]; i > 0; i--) {
+            r.add(nums[k]);
+            k = dp[k];
+        }
+        return r;
+    }
+}
