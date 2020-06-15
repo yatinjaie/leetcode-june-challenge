@@ -1,0 +1,50 @@
+Question - https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/541/week-3-june-15th-june-21st/3361/
+
+Logic - Use the property of BST -> Left node has value less than root and right node have value greater than root.
+Code -
+
+Iterative :
+
+class Solution {
+    public TreeNode searchBST(TreeNode root, int val) {
+        while(root != null) {
+            if (root.val == val)
+                return root;
+            else if (val < root.val) 
+                root = root.left;
+            else 
+                root = root.right;
+        }
+        
+        return null;
+    }
+}
+
+Recursive:
+
+class Solution {
+    
+    TreeNode node = null;
+    public TreeNode searchBST(TreeNode root, int val) {
+        
+        preOrder(root,val);
+        return node;
+    }
+    
+    
+    public void preOrder(TreeNode root, int val){
+        if(root==null){
+            return;
+        }
+        if(root.val == val){
+             node = root;
+            return;
+        }
+        if(val < root.val){
+            preOrder(root.left,val);
+        }else{
+            preOrder(root.right,val);
+        }
+    }
+    
+}
