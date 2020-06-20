@@ -1,0 +1,87 @@
+Question - https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/541/week-3-june-15th-june-21st/3366/
+
+Logic - 
+Brute Force : Generate all the permuations and store them in the list and return k - 1 b/c list is 0 index based.
+
+Optimized: 
+
+First we will get the factorial (permuation of each numbers) and save it in the factorial array.
+
+Let say n = 4, we have {1, 2, 3, 4}
+
+If we were to list out all the permutations then we have
+
+1 + (permutations of 2, 3, 4) = 6
+
+2 + (permutations of 1, 3, 4) = 6
+
+3 + (permutations of 1, 2, 4) = 6
+
+4 + (permutations of 1, 2, 3) = 6
+
+with this idea we will instead of generating all the pemutations start placing the number in the permutaitons.
+
+Steps
+
+Create the list from first n digtis n, numbers.
+index = k / fact[n - i] ==> this will give use the index of the number which will come at ith place
+k -= index * fact[n - i]; ==> once select the number reduce the k by.
+Remove the selected number from the list of numbers.
+
+Code -
+
+Brute Force Approch - Will rsult in TLE
+
+class Solution {
+    public String getPermutation(int n, int k) {
+        StringBuilder sb = new StringBuilder();
+        
+        for(int i=1;i<=n;i++){
+            sb.append(String.valueOf(i));
+        }
+        
+        System.out.println(sb.toString());
+        List<String> result = new ArrayList<>();
+        permutations("",sb.toString(),result);
+        return result.get(k-1);
+        
+    }
+    
+    public void permutations(String prefix,String s,List<String> result){
+        if(s.isEmpty()){
+            result.add(prefix);
+        }
+        else{
+            for(int i=0;i<s.length();i++){
+                permutations(prefix+s.charAt(i), s.substring(0, i) + s.substring(i+1),result );
+            }
+        }
+    } 
+}
+
+Optimized Solution 
+
+class Solution {
+    public String getPermutation(int n, int k) {
+		// factorial calculation and store in array
+        int[] fact = new int[n + 1];
+        fact[0] = 1;
+        for (int i = 1; i <= n; i++) 
+			fact[i] = fact[i - 1] * i;
+        
+		// create list of numbers from 1 to n, can also doen using simple for loop
+        List<Integer> numbers = IntStream.range(1, n + 1).mapToObj(x -> x).collect(Collectors.toList());
+
+		// place the numbers according to the approach given above
+        StringBuilder sb = new StringBuilder();
+        k--;
+        for (int i = 1; i <= n; i++) {
+            int index = k / fact[n - i];
+            sb.append(numbers.get(index));
+            numbers.remove(index);
+            k -= index * fact[n - i];
+        }
+
+        return sb.toString();
+    }
+}
