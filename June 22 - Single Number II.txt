@@ -1,0 +1,33 @@
+Question - https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/542/week-4-june-22nd-june-28th/3368/
+
+Code: 
+O(n) with Hashing. - Extra space.
+
+class Solution {
+    public int singleNumber(int[] nums) {
+        Map<Integer, Integer> freqMap = new HashMap();
+        for(int num : nums)
+            freqMap.put(num, freqMap.getOrDefault(num, 0) + 1);
+			
+        for(Map.Entry<Integer, Integer> entry : freqMap.entrySet()) {
+            if(entry.getValue() == 1)
+                return entry.getKey();
+        }
+        return 0;
+    }
+}
+
+O(n) - Bitwise
+
+class Solution {
+    public int singleNumber(int[] nums) {
+        int once=0;
+        int two=0 ;
+        for(int i=0;i<nums.length;i++){
+            once = (once^nums[i])&(~two);
+            two= (two^nums[i])&(~once);
+            System.out.println("once " + once + " two " + two );
+        }
+    return once;
+    }
+}
