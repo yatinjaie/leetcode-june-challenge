@@ -1,0 +1,22 @@
+Question - https://leetcode.com/explore/challenge/card/june-leetcoding-challenge/542/week-4-june-22nd-june-28th/3371/
+
+Code: Hare tortoice algorithm
+
+class Solution {
+    public int findDuplicate(int[] nums) {
+       int torr = nums[0];
+       int hare = nums[0];
+       do{
+           torr = nums[torr];
+           hare = nums[nums[hare]];
+       } while(hare!=torr);
+        
+        torr = nums[0];
+        while(torr!=hare){
+            torr = nums[torr];
+            hare = nums[hare];
+        }
+        
+        return torr;
+    }
+}
